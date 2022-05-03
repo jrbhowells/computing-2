@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en-gb">
+    <head>
+        <meta charset="utf-8">
+        <title>To Do Calendar</title>
+        <link rel="shortcut icon" type="image/png" href="img/tick-icon-white.png"/>
+        <link rel="stylesheet" href="default.css">
+        <script type="module" src="main.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <!--Heading Area-->
+            <h1>To Do Calendar</h1>
+            <!--Lets user know if they have overdue tasks-->
+            <div class="warning subhead"><img src="img/warning-icon-round.png" class="icon" alt="Warning!"><div style="float: right; background-color: var(--light-col); padding-top: 3px;">You have overdue tasks.</div></div>
+            <!--Button for tags popup-->
+            <div class="subhead" id="tag-button" style="padding-top: 3px;"># Tags</div>
+        </header>
+
+        <main>
+            <!--Calendar area-->
+            <table-wrapper>
+                <table id="table">
+                    <!--Table is populated by populate.js-->
+                    <tr>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </table-wrapper>
+
+            <!--New Task button-->
+            <button id="show-popup">
+                <div class="plus">+</div>
+                <div class="new-task-text">New Task</div>
+            </button>
+
+            <!--Dark Mode toggle-->
+            <div class="mode">
+                <input id="dark-tick" type="checkbox" checked>
+                <div class="mode-text">Light Mode</div>
+            </div>
+
+            <!--Overdue Task Area-->
+            <!--Banner (small, clickable)-->
+            <div class="overdue-container-banner" id="banner">
+                <div class="title-overdue" style="writing-mode: tb-rl; margin-top:50vh; font-size: 2vw;">Overdue Tasks</div>
+            </div>
+            <!--Main (main container)-->
+            <div class="overdue-container-main" id="main">
+                <div class="inner">
+                    <div class="title-overdue">Overdue Tasks</div>
+                    <ul id="overdue-list">
+                        <!--List is populated by populate.js-->
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <!--New task popup-->
+        <popup id="new-popup">
+            <div class="title-popup"></div>New Task</div>
+            <div class="label">Task Name</div>
+            <textarea placeholder="Type name here." id="name"></textarea>
+            <div class="label">Due Date & Time</div>
+            <input type="date" id="date">
+            <input type="time" id="time">
+            <div class="label">Task Notes</div>
+            <textarea placeholder="Type task notes here." style="height: 60px;" id="notes"></textarea>
+            <div class="label">Tags</div>
+            <textarea placeholder="Type space-separated tags here. Try 'Important'" style="height: 60px;" id="tags"></textarea>
+            <button id="create">Create Task</button>
+            <div class="click"><a id="clear">Clear</a>  -  <a id="cancel">Cancel</a></div>
+        </popup>
+
+        <!--Day Information popup-->
+        <popup id="day-info">
+            <div id="today"></div>
+            <ul id="today-list">
+                <!--List is populated by populate.js-->
+            </ul>
+            <button id="close" style="position: absolute; transform: translate(-50%, 0); bottom: 7%;">OK</button>
+        </popup>
+
+        <!--Task Information popup-->
+        <popup id="task-info">
+            Task
+            <div class="label">Task Name</div>
+            <div name="name"></div>
+            <div class="label">Due Date & Time</div>
+            <div name="due-date"></div>
+            <div name="time"></div>
+            <div class="label">Task Notes</div>
+            <div name="notes"></div>
+            <button id="ok">OK</button>
+            <button id="edit-popup">Edit Task</button>
+        </popup>
+
+        <!--Tags popup-->
+        <popup id="tags-popup">
+            Tag:
+            <select id="tag-selector">
+                <option>--Select a Tag--</option>
+            </select>
+            <div class="label">
+                Please select a tag. Posts are ranked in order of how many tags they have, from most to least.
+            </div>
+            <ul id="tags-list">
+                <!--List is populated by populate.js-->
+            </ul>
+            <button id="done">OK</button>
+        </popup>
+
+        <!--Tag dropdown template-->
+        <template id="dropdown">
+            <option name="dd-option"></option>
+        </template>
+
+        <!--Table element template--><!--
+        <template id="each-day">
+            <div class='date-label' name='date-label'></div>
+            <div class='td-tasks'></div>
+        </template>-->
+
+        <!--Universal list element template-->
+        <template id="list-elem">
+            <li><img src="./img/tick-icon-white.png" class="tick" alt="tick"><div name="list-task" class="list-text"></div></li>
+        </template>
+    </body>
+</html>

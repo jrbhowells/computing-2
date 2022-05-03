@@ -1,0 +1,408 @@
+/*
+CSS File for To Do Calendar SP Web App.
+James Howells
+
+CONTENTS
+
+    1. Universal colours for various elements.
+    2. Page header area
+    3. Main Calendar area
+        1. Calendar
+        2. New Task button
+        3. Popups
+            1. General
+            2. New / Edit Task
+            3. Tasks for a given day
+        4. Mode selector
+    4. Overdue Tasks Area
+        1. Main divs & animations
+        2. Title and text
+*/
+
+/* 1. Colours & fonts. These can be changed here and changes automatically apply to all */
+
+:root {
+    /* Light Mode (default): */
+    
+    --col-a: rgb(209, 209, 209);
+    --col-b: rgb(43, 43, 43);
+    --glass-col: rgba(43, 43, 43, 0.9);
+    --grey-col: rgb(182, 182, 182);
+    --red-col: rgb(160, 29, 29);
+   
+
+    /* Dark Mode: */
+    /*
+    --col-a: rgb(43, 43, 43);
+    --col-b: rgb(209, 209, 209);
+    --glass-col: rgba(141, 141, 141, 0.9);
+    --grey-col: rgb(73, 73, 73);
+    --red-col: rgb(204, 48, 48);
+    */
+    
+    --main-font: 'Avenir Book', 'Helvetica', sans-serif
+}
+
+body {
+    background-color: var(--col-a);
+}
+
+/* 2. Header area */
+
+h1 {
+    font-family: var(--main-font);
+    color: var(--col-b);
+    position: absolute;
+    font-size: max(3.5vh, 15px);
+    left:48.5vw;
+    top:2.5vh;
+    transform:translate(-50%, -50%);
+    font-weight: normal;
+    /* background-color has no effect on the page visually but it helps
+       AXE DevTools to analyse text contrast. */
+    background-color: var(--col-a);
+}
+
+.icon {
+    position: relative;
+    height: 100%;
+    margin-right: 1vw;
+    margin-left: 1vw;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: var(--red-col);
+}
+
+.subhead {
+    font-family: var(--main-font);
+    color: var(--col-b);
+    position: absolute;
+    height: max(3vh, 13.75px);
+    top: 7vh;
+    font-size: max(2.5vh, 12.5px);
+}
+
+#tag-button {
+    right: 4vw;
+    color: var(--col-b);
+    cursor: pointer;
+    /* background-color has no effect on the page visually but it helps
+       AXE Dev tools to analyse text contrast. */
+    background-color: var(--col-a);
+}
+
+.tag-button:hover {
+    cursor: pointer;
+}
+
+.warning {
+    left: 1vw;
+    color: var(--red-col);
+    visibility: hidden;
+}
+
+/* 3. Main Calendar area */
+/* 3.1. Calendar */
+
+table-wrapper {
+    position: absolute;
+    left: 48.5vw;
+    top: 52.5vh;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    background-color: var(--grey-col);
+    box-shadow: 0 0 5vh 2vh var(--grey-col), 0 0 5vw 2vw var(--grey-col);
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 80vw;
+}
+
+th, td {
+    font-family: var(--main-font);
+    color: var(--col-b);
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th {
+    font-size: 1.5vw;
+}
+
+td {
+    border: 0.5px solid var(--col-a);
+    height: calc(12vh - 5px);
+    vertical-align: top;
+    padding: 5px;
+}
+
+td:hover {
+    border: 1px solid var(--col-b);
+    cursor: pointer;
+}
+
+.date-label {
+    width: 3.5vh;
+    height: 3.5vh;
+    border-radius: 50%;
+    background-color: var(--col-b);
+    color: var(--col-a);
+    text-align: center;
+    line-height: 3.5vh;
+    font-size: 2.3vh;
+}
+
+td:hover .date-label {
+    background-color: var(--red-col);
+    color: var(--col-a);
+}
+
+.today-select .date-label {
+    background-color: var(--red-col);
+}
+
+/* 3.2. New Task button */
+
+main button {
+    position: absolute;
+    height: 5vh;
+    line-height: 2.5vh;
+    transform: translate(-50%, -50%);
+    left: 48.5vw;
+    bottom: 3vh;
+    border: 2px solid var(--col-b);
+    border-radius: 10px;
+    color: var(--col-b);
+    background-color: var(--col-a);
+}
+
+main button:hover {
+    border: 2px solid var(--red-col);
+    color: var(--red-col);
+    background-color: var(--grey-col);
+    cursor: pointer;
+}
+
+.plus, .new-task-text {
+    font-family: var(--main-font);
+}
+
+.plus {
+    font-size: 30px;
+    padding-left: 10px;
+    float: left;
+}
+
+.new-task-text {
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: right;
+}
+
+/* 3.3. Popups */
+/* 3.3.1. General */
+
+popup {
+    visibility: hidden;
+    position: absolute;
+    width: 30vw;
+    height: 60vh;
+    overflow: scroll;
+    top: 50vh;
+    left: 48.5vw;
+    transform: translate(-50%, -50%);
+    background-color: var(--glass-col);
+    border-radius: 10px;
+
+    font-family: var(--main-font);
+    font-size: 3.5vh;
+    text-align: center;
+    padding-top: 0.5%;
+    color: var(--col-a);
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.label {
+    text-align: left;
+    font-size: 2vh;
+    margin-left: 4%;
+    margin-top: 5%;
+}
+
+popup button {
+    display: inline-block;
+    width: 62%;
+    height: 30px;
+    line-height: 15px;
+    margin-top: 6%;
+    border: 2px solid var(--col-a);
+    border-radius: 10px;
+    background: none;
+    text-align: center;
+    font-size: 15px;
+    color: var(--col-a);
+}
+
+popup button:hover {
+    border: 2px solid var(--red-col);
+    color: var(--red-col);
+    cursor: pointer;
+}
+
+/* 3.3.2. New / Edit Task */
+
+textarea, input {
+    width: 60%;
+    height: 30px;
+    font-family: var(--main-font);
+    border-radius: 5px;
+    line-height: 30px;
+    padding-left: 0.5vw;
+}
+
+.click {
+    margin-top: 1px;
+    margin-bottom: 6%;
+    font-size: 11px;
+}
+
+#clear:hover, #cancel:hover {
+    color: var(--red-col);
+    cursor: pointer;
+}
+
+/* 3.3.3. Tasks for a given day */
+
+.tick {
+    float: right;
+    height: 3vh;
+    padding: 0.35vh;
+    border-radius: 5px;
+}
+
+li:hover .tick {
+    visibility: visible;
+}
+
+.tick:hover {
+    background-color: var(--red-col);
+}
+
+.list-text {
+    margin-right: 4vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 3.4. Mode selector */
+
+.mode {
+    position: absolute;
+    left: 1vw;
+    bottom: 5vh;
+}
+
+#dark-tick {
+    float: left;
+    width: 40px;
+}
+
+.mode-text {
+    font-size: 15px;
+    margin-left: 20px;
+    font-family: var(--main-font);
+    color: var(--col-b);
+}
+
+/* 4. Overdue Tasks Area */
+/* 4.1. Main divs & animations */
+
+.overdue-container-banner {
+    font-family: var(--main-font);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 3vw;
+    top: 0;
+    border-top-left-radius: 3vh;
+    border-bottom-left-radius: 3vh;
+    animation-name: shrink;
+    animation-duration: 1s;
+    background-color: var(--col-b);
+    color: var(--col-a);
+    cursor: pointer;
+}
+
+.overdue-container-main {
+    display: none;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 30vw;
+    top: 0;
+    border-top-left-radius: 3vh;
+    border-bottom-left-radius: 3vh;
+    overflow: hidden;
+    background-color: var(--col-b);
+    color: var(--col-a);
+    font-family: var(--main-font);
+    font-size: 2vh;
+    animation-name: grow;
+    animation-duration: 1s;
+}
+
+@keyframes grow {
+    from {width: 3vw}
+    to {width: 30vw}
+}
+
+@keyframes shrink {
+    from {width: 30vw}
+    to {width: 3vw}
+}
+
+.inner {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 27vw;
+    top: 0;
+    margin-right: 2vw;
+}
+
+/* 4.2. Title and text */
+
+.title-overdue {
+    font-size: 3.5vh;
+    margin-left:50%;
+    margin-top:2.5vh;
+    transform:translate(-50%, -50%);
+    color: var(--col-a);
+}
+
+li {
+    height: 3.7vh;
+    font-family: var(--main-font);
+    color: var(--col-a);
+    font-size: 2.5vh;
+    margin-right: 10%;
+    text-align: left;
+    padding-left: 0.5vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+li:hover {
+    color: var(--red-col);
+    border-radius: 5px;
+    background-color: var(--col-a);
+    cursor: pointer;
+}
